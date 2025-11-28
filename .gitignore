@@ -3,6 +3,24 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# virtual environment
+.venv/
+resign-api/
+
+# UV
+.uv/
+uv.lock
+
+# folder for resign-api
+resign-api/
+images/
+
+# log files
+*.log
+app.log
+logs/
+.gradio/
+
 # C extensions
 *.so
 
