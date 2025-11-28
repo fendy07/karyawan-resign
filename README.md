@@ -5,7 +5,7 @@ Proyek ini adalah aplikasi machine learning untuk memprediksi kemungkinan karyaw
 ## Deskripsi
 
 - **Fitur Utama**:
-  - Prediksi resign karyawan berdasarkan input: tingkat kepuasan, lama bekerja, kecelakaan kerja, gaji, dan jam kerja per bulan.
+  - Prediksi resign karyawan berdasarkan input: `tingkat kepuasan`, `lama bekerja`, `kecelakaan kerja`, `gaji`, dan `jam kerja per bulan`.
   - Model: Random Forest (default) atau Decision Tree.
   - API Endpoint: `/predict` untuk prediksi via JSON.
   - UI: Gradio di `/gradio` untuk input interaktif.
