@@ -1,5 +1,6 @@
 import logging
 import sys
+import os
 
 # Configure logging with detailed format
 def configure_logging():
@@ -7,13 +8,18 @@ def configure_logging():
     log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     log_level = logging.INFO
     
+    # Create logs directory if it doesn't exist
+    log_dir = 'logs'
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    
     # Create logger
     logging.basicConfig(
         level=log_level,
         format=log_format,
         handlers=[
             logging.StreamHandler(sys.stdout),
-            logging.FileHandler('logs/app.log')
+            logging.FileHandler(os.path.join(log_dir, 'app.log'))
         ]
     )
     

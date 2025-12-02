@@ -5,15 +5,23 @@ import uvicorn
 import gradio as gr
 import numpy as np
 import pandas as pd
-from utils import logger, log_prediction, log_error, log_info, log_debug
+import os
+from .utils import logger, log_prediction, log_error, log_info, log_debug
+
+# Get the base directory for model files
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, 'models', 'random_forest_model.joblib')
+SCALER_PATH = os.path.join(BASE_DIR, 'models', 'scaler.joblib')
 
 # Load model dan scaler (ganti path jika perlu)
 try:
     log_info("Loading machine learning models...")
-    model = joblib.load('../models/random_forest_model.joblib')
+    log_info(f"Model path: {MODEL_PATH}")
+    model = joblib.load(MODEL_PATH)
     log_info("Random Forest model loaded successfully")
     
-    scaler = joblib.load('../models/scaler.joblib')
+    log_info(f"Scaler path: {SCALER_PATH}")
+    scaler = joblib.load(SCALER_PATH)
     log_info("Scaler loaded successfully")
 except Exception as e:
     log_error(f"Failed to load models: {str(e)}", exc_info=True)

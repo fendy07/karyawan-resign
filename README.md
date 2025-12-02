@@ -1,4 +1,4 @@
-# Prediksi Karyawan Resign
+# <b>Prediksi Karyawan Resign</b>
 
 Proyek ini adalah aplikasi machine learning untuk memprediksi kemungkinan karyawan resign berdasarkan data HR. Model yang digunakan adalah Decision Tree dan Random Forest, dilatih menggunakan dataset `Dataset_HR.csv`. Aplikasi di-deploy menggunakan FastAPI sebagai backend API dan Gradio sebagai frontend UI. Selain itu, mendukung deployment dengan Docker untuk kemudahan skalabilitas.
 
