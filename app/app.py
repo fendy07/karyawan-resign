@@ -98,13 +98,46 @@ def predict_resign_direct(tingkat_kepuasan, lama_bekerja, kecelakaan_kerja, gaji
         
         log_prediction(input_data, resign_status, confidence, probabilities)
         
-        return f"""📊 Prediksi Resign: {resign_status.upper()} 
-        💯 Confidence Score: {confidence:.2f}% 
-        📈 Probabilitas Tidak Resign: {probabilities[0]*100:.2f}% 
-        📈 Probabilitas Resign: {probabilities[1]*100:.2f}%"""
+        # Hitung progress bar untuk probabilitas
+        prob_tidak_resign = probabilities[0] * 100
+        prob_resign = probabilities[1] * 100
+        
+        # Buat visualisasi detail probabilitas
+        detail_output = f"""
+📊 HASIL PREDIKSI RESIGN KARYAWAN
+
+🎯 PREDIKSI AKHIR: {resign_status.upper()}
+💯 CONFIDENCE SCORE: {confidence:.2f}%
+
+📈 DETAIL PROBABILITAS
+
+❌ Tidak Resign: {prob_tidak_resign:.2f}%
+   {'█' * int(prob_tidak_resign / 5)}{'░' * (20 - int(prob_tidak_resign / 5))}
+
+✅ Resign: {prob_resign:.2f}%
+   {'█' * int(prob_resign / 5)}{'░' * (20 - int(prob_resign / 5))}
+
+📋 DATA INPUT
+
+• Tingkat Kepuasan: {tingkat_kepuasan:.2f}
+• Lama Bekerja: {int(lama_bekerja)} tahun
+• Kecelakaan Kerja: {'Pernah' if kecelakaan_kerja == 1 else 'Tidak Pernah'}
+• Level Gaji: {['Low', 'Medium', 'High'][int(gaji)]}
+• Jam Kerja per Bulan: {int(jam_kerja_perbulan)} jam
+
+🔍 Analisis:
+• Karyawan dengan tingkat kepuasan rendah cenderung memiliki risiko resign lebih tinggi.
+• Lama bekerja yang singkat juga dapat meningkatkan kemungkinan resign.
+• Kecelakaan kerja dapat mempengaruhi keputusan karyawan untuk resign.
+• Gaji yang lebih tinggi biasanya berbanding terbalik dengan tingkat resign.
+• Jam kerja yang terlalu banyak dapat menyebabkan kelelahan dan meningkatkan risiko resign.
+
+"""
+        return detail_output
+
     except Exception as e:
         log_error(f"Error in Gradio prediction: {str(e)}", exc_info=True)
-        return f"Error: {str(e)}"
+        return f"❌ Error: {str(e)}"
 
 # Buat interface Gradio
 gradio_interface = gr.Interface(
@@ -116,8 +149,8 @@ gradio_interface = gr.Interface(
         gr.Dropdown(choices=[0, 1, 2], label="Gaji (0: Low, 1: Medium, 2: High)"),
         gr.Number(label="Jam Kerja per Bulan", precision=0)
     ],
-    outputs=gr.Textbox(label="Hasil Prediksi"),
-    title="Prediksi Karyawan Resign Menggunakan Random Forest",
+    outputs=gr.Textbox(label="Hasil Prediksi", lines=12),
+    title="Prediksi Karyawan Resign Menggunakan Algoritma Random Forest",
     description="Masukkan data karyawan untuk memprediksi kemungkinan resign."
 )
 
@@ -127,6 +160,11 @@ gr.Markdown("""
             - Pastikan data yang dimasukkan akurat dan relevan.
             - Gradio interface siap diakses di /gradio
             - Confidence score menunjukkan seberapa yakin model terhadap prediksi yang diberikan.
+            """)
+
+gr.Markdown("""
+            ----
+            **Fendy Hendriyanto - AI Mentor | Version 1.0.0 | © 2025 
             """)
 
 # Mount Gradio ke FastAPI di route /gradio
