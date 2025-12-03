@@ -6,7 +6,13 @@ import gradio as gr
 import numpy as np
 import pandas as pd
 import os
-from .utils import logger, log_prediction, log_error, log_info, log_debug
+import sys
+
+# Handle imports for both local and Docker environments
+try:
+    from .utils import logger, log_prediction, log_error, log_info, log_debug
+except ImportError:
+    from utils import logger, log_prediction, log_error, log_info, log_debug
 
 # Get the base directory for model files
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,10 +98,10 @@ def predict_resign_direct(tingkat_kepuasan, lama_bekerja, kecelakaan_kerja, gaji
         
         log_prediction(input_data, resign_status, confidence, probabilities)
         
-        return f"""Prediksi Resign: {resign_status}
-Confidence Score: {confidence:.2f}%
-Probabilitas Tidak Resign: {probabilities[0]*100:.2f}%
-Probabilitas Resign: {probabilities[1]*100:.2f}%"""
+        return f"""📊 Prediksi Resign: {resign_status.upper()} 
+        💯 Confidence Score: {confidence:.2f}% 
+        📈 Probabilitas Tidak Resign: {probabilities[0]*100:.2f}% 
+        📈 Probabilitas Resign: {probabilities[1]*100:.2f}%"""
     except Exception as e:
         log_error(f"Error in Gradio prediction: {str(e)}", exc_info=True)
         return f"Error: {str(e)}"
@@ -114,6 +120,14 @@ gradio_interface = gr.Interface(
     title="Prediksi Karyawan Resign Menggunakan Random Forest",
     description="Masukkan data karyawan untuk memprediksi kemungkinan resign."
 )
+
+gr.Markdown("""
+            ### 💡 Tips:
+            - Gunakan slider dan input yang sesuai untuk mendapatkan prediksi terbaik.
+            - Pastikan data yang dimasukkan akurat dan relevan.
+            - Gradio interface siap diakses di /gradio
+            - Confidence score menunjukkan seberapa yakin model terhadap prediksi yang diberikan.
+            """)
 
 # Mount Gradio ke FastAPI di route /gradio
 log_info("Mounting Gradio interface at /gradio")

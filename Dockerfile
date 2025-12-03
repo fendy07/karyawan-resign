@@ -25,5 +25,5 @@ USER appuser
 CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8000"]
 # For more information, please refer to https://aka.ms/vscode-docker-python
 # To build and run this Dockerfile, use the commands:
-#   docker build -t my-fastapi-app .
-#   docker run -p 8000:8000 my-fastapi-app
+#   docker build -t karyawan-resign-app .
+#   docker run -p 8000:8000 karyawan-resign-app

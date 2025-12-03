@@ -1,6 +1,6 @@
 services:
-  karyawanresign:
-    image: karyawanresign
+  app:
+    image: karyawan-resign-app
     build:
       context: .
       dockerfile: ./Dockerfile
